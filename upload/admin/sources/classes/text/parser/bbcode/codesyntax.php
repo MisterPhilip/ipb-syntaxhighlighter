@@ -110,28 +110,9 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
 	 */
 	protected function _colorfy( $content, array $options )
 	{
-        // Convert the languages from the current editor
-        switch( $options['lang'] )
-        {
-            case 'js': 
-                $options['lang'] = 'javascript';
-            break;
-            case 'html':
-                $options['lang'] = 'html5';
-            break;
-            case 'auto':
-                $this->_defaultLanguage;
-            break;
-            default:
-                // Nothing to do here, we'll check in just a second on these
-            break;
-        }
-        
-        // Verify we have the language in the array
-        if( ! in_array( $options['lang'], $this->_allowedLanguages ) )
-        {
-            $options['lang'] = $this->_defaultLanguage;
-        }
+    
+        if( $options['lang'] == 'code' )
+            $options['lang'] = 'auto';
         
         $finalContent = '<pre class="';
         $finalContent.= 'brush: ' . $options['lang'] . ';';
@@ -144,7 +125,7 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
             $finalContent.= ' first-line: ' . $lineNums . ';';
         }
         
-        $finalContent.= '> ';
+        $finalContent.= '"> ';
         $finalContent.= $content;
         $finalContent.= '</pre>';
         
