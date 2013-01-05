@@ -73,7 +73,8 @@ Event.observe( window, 'load', function( e ) {
       'xml xhtml xslt html auto @shBrushXml.js'
     ));
     SyntaxHighlighter.all();
-    });
+});
+var prettyPrint = function() { SyntaxHighlighter.highlight(); };
 	//|#^#]>
 	</script>
 EOF;
