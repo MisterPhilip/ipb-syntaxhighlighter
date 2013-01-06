@@ -10,8 +10,8 @@
       <hook_update_check/>
       <hook_requirements><![CDATA[a:3:{s:21:"required_applications";a:0:{}s:20:"hook_php_version_min";s:0:"";s:20:"hook_php_version_max";s:0:"";}]]></hook_requirements>
       <hook_version_human>1.0.0</hook_version_human>
-      <hook_version_long>10000</hook_version_long>
-      <hook_extra_data><![CDATA[a:2:{s:7:"display";a:1:{s:8:"settings";s:32:"Setting groups: Code Highlighter";}s:13:"settingGroups";a:1:{i:0;s:16:"code_highlighter";}}]]></hook_extra_data>
+      <hook_version_long>10001</hook_version_long>
+      <hook_extra_data><![CDATA[a:4:{s:7:"display";a:3:{s:8:"settings";s:32:"Setting groups: Code Highlighter";s:3:"css";s:29:"CSS Files:  SyntaxHighlighter";s:8:"language";s:130:"From core_public_js: codesyntax_alert, codesyntax_brushNotHtmlScript, codesyntax_expandSource, codesyntax_help, codesyntax_noBrush";}s:13:"settingGroups";a:1:{i:0;s:16:"code_highlighter";}s:3:"css";a:1:{i:0;s:17:"SyntaxHighlighter";}s:8:"language";a:1:{s:14:"core_public_js";a:5:{i:0;s:16:"codesyntax_alert";i:1;s:29:"codesyntax_brushNotHtmlScript";i:2;s:23:"codesyntax_expandSource";i:3;s:15:"codesyntax_help";i:4;s:18:"codesyntax_noBrush";}}}]]></hook_extra_data>
       <hook_key>SyntaxHighlighter_Replacements</hook_key>
       <hook_global_caches/>
     </config>
@@ -26,7 +26,6 @@
 {
 	public function include_highlighter( $load_when_needed=0 )
 	{
-$brushLoc = $this->settings['js_base_url'] . '/js/3rd_party/SyntaxHighlighter/';
 $IPBHTML = "";
 //--starthtml--//
 $IPBHTML .= <<<EOF
@@ -37,32 +36,36 @@ $IPBHTML .= <<<EOF
 Event.observe( window, 'load', function( e ) {    
     
     SyntaxHighlighter.autoloader(
-      'applescript              {$brushLoc}shBrushAppleScript.js',
-      'actionscript3 as3        {$brushLoc}shBrushAS3.js',
-      'bash shell               {$brushLoc}shBrushBash.js',
-      'coldfusion cf            {$brushLoc}shBrushColdFusion.js',
-      'cpp c                    {$brushLoc}shBrushCpp.js',
-      'c# c-sharp csharp        {$brushLoc}shBrushCSharp.js',
-      'css                      {$brushLoc}shBrushCss.js',
-      'delphi pascal            {$brushLoc}shBrushDelphi.js',
-      'diff patch pas           {$brushLoc}shBrushDiff.js',
-      'erl erlang               {$brushLoc}shBrushErlang.js',
-      'groovy                   {$brushLoc}shBrushGroovy.js',
-      'java                     {$brushLoc}shBrushJava.js',
-      'jfx javafx               {$brushLoc}shBrushJavaFX.js',
-      'js jscript javascript    {$brushLoc}shBrushJScript.js',
-      'perl pl                  {$brushLoc}shBrushPerl.js',
-      'php                      {$brushLoc}shBrushPhp.js',
-      'text plain               {$brushLoc}shBrushPlain.js',
-      'py python                {$brushLoc}shBrushPython.js',
-      'ruby rails ror rb        {$brushLoc}shBrushRuby.js',
-      'sass scss                {$brushLoc}shBrushSass.js',
-      'scala                    {$brushLoc}shBrushScala.js',
-      'sql                      {$brushLoc}shBrushSql.js',
-      'vb vbnet                 {$brushLoc}shBrushVb.js',
-      'xml xhtml xslt html auto {$brushLoc}shBrushXml.js'
+      'applescript              {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushAppleScript.js',
+      'actionscript3 as3        {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushAS3.js',
+      'bash shell               {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushBash.js',
+      'coldfusion cf            {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushColdFusion.js',
+      'cpp c                    {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushCpp.js',
+      'c# c-sharp csharp        {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushCSharp.js',
+      'css                      {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushCss.js',
+      'delphi pascal            {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushDelphi.js',
+      'diff patch pas           {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushDiff.js',
+      'erl erlang               {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushErlang.js',
+      'groovy                   {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushGroovy.js',
+      'java                     {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushJava.js',
+      'jfx javafx               {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushJavaFX.js',
+      'js jscript javascript    {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushJScript.js',
+      'perl pl                  {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushPerl.js',
+      'php                      {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushPhp.js',
+      'text plain               {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushPlain.js',
+      'py python                {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushPython.js',
+      'ruby rails ror rb        {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushRuby.js',
+      'sass scss                {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushSass.js',
+      'scala                    {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushScala.js',
+      'sql                      {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushSql.js',
+      'vb vbnet                 {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushVb.js',
+      'xml xhtml xslt html auto {$this->settings['js_base_url']}/js/3rd_party/SyntaxHighlighter/shBrushXml.js'
     );
-    
+    SyntaxHighlighter.config.strings.expandSource       = ipb.lang['codesyntax_expandSource'];
+    SyntaxHighlighter.config.strings.help               = ipb.lang['codesyntax_help'];
+    SyntaxHighlighter.config.strings.alert              = ipb.lang['codesyntax_alert'];
+    SyntaxHighlighter.config.strings.noBrush            = ipb.lang['codesyntax_noBrush'];
+    SyntaxHighlighter.config.strings.brushNotHtmlScript = ipb.lang['codesyntax_brushNotHtmlScript'];
     SyntaxHighlighter.defaults['auto-links'] = {$this->settings['codesyntax_clickableURL']};
     SyntaxHighlighter.defaults['smart-tabs'] = {$this->settings['codesyntax_smartTabs']};
     SyntaxHighlighter.defaults['tab-size']   = parseInt({$this->settings['codesyntax_tabSize']});
@@ -237,7 +240,38 @@ return $IPBHTML;
       <conf_is_title>0</conf_is_title>
     </setting>
   </hookextras_settings>
-  <hookextras_language/>
+  <hookextras_language>
+    <language>
+      <word_app>core</word_app>
+      <word_pack>public_js</word_pack>
+      <word_key>codesyntax_expandSource</word_key>
+      <word_default>+ expand source</word_default>
+    </language>
+    <language>
+      <word_app>core</word_app>
+      <word_pack>public_js</word_pack>
+      <word_key>codesyntax_help</word_key>
+      <word_default>?</word_default>
+    </language>
+    <language>
+      <word_app>core</word_app>
+      <word_pack>public_js</word_pack>
+      <word_key>codesyntax_alert</word_key>
+      <word_default>SyntaxHighlighter\n\n</word_default>
+    </language>
+    <language>
+      <word_app>core</word_app>
+      <word_pack>public_js</word_pack>
+      <word_key>codesyntax_noBrush</word_key>
+      <word_default><![CDATA[Can't find brush for:]]></word_default>
+    </language>
+    <language>
+      <word_app>core</word_app>
+      <word_pack>public_js</word_pack>
+      <word_key>codesyntax_brushNotHtmlScript</word_key>
+      <word_default><![CDATA[Brush wasn't made for html-script option:]]></word_default>
+    </language>
+  </hookextras_language>
   <hookextras_modules/>
   <hookextras_help/>
   <hookextras_templates/>

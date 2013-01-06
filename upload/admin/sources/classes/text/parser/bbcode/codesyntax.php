@@ -8,7 +8,7 @@
  * @package		IP.Board
  * @link		http://misterphilip.com
  * @link        https://github.com/MisterPhilip/ipb-syntaxhighlighter/
- * @version     10002
+ * @version     10003
  *
  */
 
@@ -163,9 +163,9 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
             $options['lang'] = 'auto';
             
         
-        $finalContent = '<pre class="';
+        $finalContent = '<pre class=" _prettyXprint ';
         //$finalContent.= 'html-script: true;'; // Still throws an alert on preview?
-        $finalContent.= 'brush: ' . $options['lang'] . ';';
+        $finalContent.= ' brush: ' . $options['lang'] . ';';
         
         // Settings -----------------------------------------------
         // -> Line numbers
@@ -174,6 +174,10 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
         {
             $finalContent.= ' first-line: ' . $lineNums . ';';
         }   
+        else
+        {
+            $finalContent.= ' gutter: false;';
+        }
         
         $finalContent.= '"> ';
         $finalContent.= preg_replace( '#(https|http|ftp)://#' , '\1&#58;//', $content );
