@@ -8,7 +8,7 @@
  * @package		IP.Board
  * @link		http://misterphilip.com
  * @link        https://github.com/MisterPhilip/ipb-syntaxhighlighter/
- * @version     10004
+ * @version     10005
  *
  */
 
@@ -57,6 +57,7 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
 	 */
 	protected function _replaceText( $txt )
 	{        
+        
         // Convert old tag (and outdated tags) to the new code tag
         $oldTags = array( );
         
@@ -84,30 +85,38 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
                 $txt = str_ireplace( '[/' . $tag . ']', '[/code]', $txt );
             }
         }
-        
         // Check for the correct class, less resource intensive than regex
         if( stristr( $txt, '_prettyXPrint' ) )
         {
-            // We already have the HTML for it, let's clean it up and GeSHi it
-            if( preg_match_all( '#<pre[^>]*class\s?=\s?(["\'])((?:(?!\1).)*)_prettyXprint((?:(?!\1).)*)\1[^>]*>((?:(?!</pre>).)*)</pre>#is', $txt, $matches ) > 0 )
-            {
-                $codeboxCount = count( $matches[0] );
+            $tags = $this->_parent->getTagPositions( $txt, 'pre', array( '<' , '>' ));
+            
+            foreach( $tags['open'] as $id => $val )
+			{
+                $tagEnd = strpos( $txt, '>', $tags['openWithTag'][ $id ] );
+                $openTag = substr( $txt, $tags['openWithTag'][ $id ], ( $tagEnd - $tags['openWithTag'][ $id ] + 1) );
                 
-                // Loop through all of our matches
-                for($i = 0; $i < $codeboxCount; $i++)
-                {
-                    $options = array();
+                $origLength = $tags['closeWithTag'][ $id ] - $tags['openWithTag'][ $id ];
+                
+                
+                $lang = 'php';
+                $line = 0;
+                
+                if( preg_match( '#_lang-(\w+)#i', $openTag, $matches ) )
+                    $lang = $matches[1];
                     
-                    // Grab the other classes (options in this case) 
-                    list($options['lang'], $options['lineNum'] ) = explode(' ', trim( $matches[2][$i] . $matches[3][$i] ) );
-                    $options['lang'] = str_replace( '_lang-', '', $options['lang'] );
-                    $options['lineNum'] = str_replace( '_linenums:', '', $options['lineNum'] );
-                    
-                    // Replace the current with the new
-                    $replacement = $this->_colorfy( $matches[4][$i], $options );
-                    $txt = str_replace( $matches[0][$i] , $replacement, $txt );
-                }
-            }
+                if( preg_match( '#_linenums:(\d+)#i', $openTag, $matches ) )
+                    $line = $matches[1];
+                
+                $content = html_entity_decode( substr( $txt, $tags['open'][ $id ], ( $tags['close'][ $id ] - $tags['open'][ $id ] ) ) );
+                $content = $this->_colorfy( $content, array('lang' => $lang, 'lineNum' => $line) );
+                
+                $newLength = strlen( $content );
+                
+                $txt = substr_replace( $txt, $content, $tags['openWithTag'][ $id ], ( $tags['closeWithTag'][ $id ] - $tags['openWithTag'][ $id ] ) );
+                
+                // Update all lengths (we're cheating here!)
+                $tags = $this->_parent->getTagPositions( $txt, 'pre', array( '<' , '>' ));
+			}
         }
         
         // Run the existing for bbcode versions
@@ -159,13 +168,13 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
 	 */
 	protected function _colorfy( $content, array $options )
 	{
-        if( $options['lang'] == 'code' )
-            $options['lang'] = 'auto';
-            
+        if( $options['lang'] == 'auto' || $options['lang'] == 'code' )
+            $options['lang'] = 'php';
         
         $finalContent = '<pre class="';
-        //$finalContent.= 'html-script: true;'; // Still throws an alert on preview?
         $finalContent.= 'brush: ' . $options['lang'] . ';';
+        #if( in_array( $options['lang'], array( 'php', 'css', 'js', 'jscript', 'javascript' ) ) )
+        #    $finalContent.= ' html-script: true;';
         
         // Settings -----------------------------------------------
         // -> Line numbers
@@ -180,7 +189,7 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
         }
         
         $finalContent.= '"> ';
-        $finalContent.= preg_replace( '#(https|http|ftp)://#' , '\1&#58;//', $content );
+        $finalContent.= preg_replace( '#(https|http|ftp)://#' , '\1&#58;//', htmlentities( $content ) );
         $finalContent.= '</pre>';
         
         // Return our parsed code
