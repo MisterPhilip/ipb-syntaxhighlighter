@@ -8,7 +8,7 @@
  * @package		IP.Board
  * @link		http://misterphilip.com
  * @link        https://github.com/MisterPhilip/ipb-syntaxhighlighter/
- * @version     10001
+ * @version     10002
  *
  */
 
@@ -163,9 +163,9 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
             $options['lang'] = 'auto';
             
         
-        $finalContent = '<pre class=" _prettyXprint ';
+        $finalContent = '<pre class="';
         //$finalContent.= 'html-script: true;'; // Still throws an alert on preview?
-        $finalContent.= ' brush: ' . $options['lang'] . ';';
+        $finalContent.= 'brush: ' . $options['lang'] . ';';
         
         // Settings -----------------------------------------------
         // -> Line numbers
