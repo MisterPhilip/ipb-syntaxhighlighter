@@ -163,9 +163,9 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
             $options['lang'] = 'auto';
             
         
-        $finalContent = '<pre class=" _prettyXprint ';
+        $finalContent = '<pre class="';
         //$finalContent.= 'html-script: true;'; // Still throws an alert on preview?
-        $finalContent.= ' brush: ' . $options['lang'] . ';';
+        $finalContent.= 'brush: ' . $options['lang'] . ';';
         
         // Settings -----------------------------------------------
         // -> Line numbers
