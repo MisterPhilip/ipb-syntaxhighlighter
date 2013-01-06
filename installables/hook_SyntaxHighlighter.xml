@@ -26,6 +26,7 @@
 {
 	public function include_highlighter( $load_when_needed=0 )
 	{
+$brushLoc = $this->settings['js_base_url'] . '/js/3rd_party/SyntaxHighlighter/';
 $IPBHTML = "";
 //--starthtml--//
 $IPBHTML .= <<<EOF
@@ -33,48 +34,40 @@ $IPBHTML .= <<<EOF
 	<script type="text/javascript" src="{$this->settings['js_base_url']}js/3rd_party/SyntaxHighlighter/shAutoloader.js"></script>
     <script type="text/javascript">
 //<!#^#|CDATA|
-Event.observe( window, 'load', function( e ) {
-    function path()
-    {
-      var args = arguments,
-          result = []
-          ;
-           
-      for(var i = 0; i < args.length; i++)
-          result.push(args[i].replace('@', '{$this->settings['js_base_url']}js/3rd_party/SyntaxHighlighter/'));
-           
-      return result
-    };
-     
-    SyntaxHighlighter.autoloader.apply(null, path(
-      'applescript              @shBrushAppleScript.js',
-      'actionscript3 as3        @shBrushAS3.js',
-      'bash shell               @shBrushBash.js',
-      'coldfusion cf            @shBrushColdFusion.js',
-      'cpp c                    @shBrushCpp.js',
-      'c# c-sharp csharp        @shBrushCSharp.js',
-      'css                      @shBrushCss.js',
-      'delphi pascal            @shBrushDelphi.js',
-      'diff patch pas           @shBrushDiff.js',
-      'erl erlang               @shBrushErlang.js',
-      'groovy                   @shBrushGroovy.js',
-      'java                     @shBrushJava.js',
-      'jfx javafx               @shBrushJavaFX.js',
-      'js jscript javascript    @shBrushJScript.js',
-      'perl pl                  @shBrushPerl.js',
-      'php                      @shBrushPhp.js',
-      'text plain               @shBrushPlain.js',
-      'py python                @shBrushPython.js',
-      'ruby rails ror rb        @shBrushRuby.js',
-      'sass scss                @shBrushSass.js',
-      'scala                    @shBrushScala.js',
-      'sql                      @shBrushSql.js',
-      'vb vbnet                 @shBrushVb.js',
-      'xml xhtml xslt html auto @shBrushXml.js'
-    ));
+Event.observe( window, 'load', function( e ) {    
+    
+    SyntaxHighlighter.autoloader(
+      'applescript              {$brushLoc}shBrushAppleScript.js',
+      'actionscript3 as3        {$brushLoc}shBrushAS3.js',
+      'bash shell               {$brushLoc}shBrushBash.js',
+      'coldfusion cf            {$brushLoc}shBrushColdFusion.js',
+      'cpp c                    {$brushLoc}shBrushCpp.js',
+      'c# c-sharp csharp        {$brushLoc}shBrushCSharp.js',
+      'css                      {$brushLoc}shBrushCss.js',
+      'delphi pascal            {$brushLoc}shBrushDelphi.js',
+      'diff patch pas           {$brushLoc}shBrushDiff.js',
+      'erl erlang               {$brushLoc}shBrushErlang.js',
+      'groovy                   {$brushLoc}shBrushGroovy.js',
+      'java                     {$brushLoc}shBrushJava.js',
+      'jfx javafx               {$brushLoc}shBrushJavaFX.js',
+      'js jscript javascript    {$brushLoc}shBrushJScript.js',
+      'perl pl                  {$brushLoc}shBrushPerl.js',
+      'php                      {$brushLoc}shBrushPhp.js',
+      'text plain               {$brushLoc}shBrushPlain.js',
+      'py python                {$brushLoc}shBrushPython.js',
+      'ruby rails ror rb        {$brushLoc}shBrushRuby.js',
+      'sass scss                {$brushLoc}shBrushSass.js',
+      'scala                    {$brushLoc}shBrushScala.js',
+      'sql                      {$brushLoc}shBrushSql.js',
+      'vb vbnet                 {$brushLoc}shBrushVb.js',
+      'xml xhtml xslt html auto {$brushLoc}shBrushXml.js'
+    );
+    
     SyntaxHighlighter.all();
 });
-var prettyPrint = function() { SyntaxHighlighter.highlight(); };
+var prettyPrint = function() { 
+    SyntaxHighlighter.all(); 
+};
 	//|#^#]>
 	</script>
 EOF;
