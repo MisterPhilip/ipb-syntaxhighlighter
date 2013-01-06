@@ -7,7 +7,8 @@
  * @license		http://www.invisionpower.com/company/standards.php#license
  * @package		IP.Board
  * @link		http://misterphilip.com
- * @version     10000
+ * @link        https://github.com/MisterPhilip/ipb-syntaxhighlighter/
+ * @version     10001
  *
  */
 
@@ -23,12 +24,28 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
 	/**
 	 * {@inherit}
 	 */
-	public function __construct( ipsRegistry $registry, $_parent='' )
+	public function __construct( ipsRegistry $registry, $_parent=NULL )
 	{
 		$this->currentBbcode	= 'codesyntax';
         $this->_parent = $_parent;
+        
+		// Do what is normally done in the parent __construct
+        // We can't call parent::__construct since bbcode_plugin_code would overwrite the currentBbcode
+		$this->registry		= $registry;
+		$this->DB			= $this->registry->DB();
+		$this->settings		=& $this->registry->fetchSettings();
+		$this->request		=& $this->registry->fetchRequest();
+		$this->lang			= $this->registry->getClass('class_localization');
+		$this->member		= $this->registry->member();
+		$this->memberData	=& $this->registry->member()->fetchMemberData();
+		$this->cache		= $this->registry->cache();
+		$this->caches		=& $this->registry->cache()->fetchCaches();
+        
+		$this->_parentBBcode = $_parent;
 		
-		parent::__construct( $registry, $_parent );
+		/* Retrieve bbcode data */
+		$bbcodeCache	= $this->cache->getCache('bbcode');
+		$this->_bbcode	= $bbcodeCache[ $this->currentBbcode ];
 	}
 	
 	/**
@@ -39,7 +56,35 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
 	 * @return	string				BBCode content, ready for editing
 	 */
 	protected function _replaceText( $txt )
-	{
+	{        
+        // Convert old tag (and outdated tags) to the new code tag
+        $oldTags = array( );
+        
+        if( $this->settings['codesyntax_parseOld'] )
+            $oldTags = array_merge( $oldTags, array( 'html', 'php', 'sql', 'xml' ) );
+        
+        foreach( $this->_retrieveTags() as $tag)
+        {
+            if( in_array( $tag, $oldTags ) )
+            {
+                $lang = $tag;
+            }
+            else
+            {
+                $lang = 'auto';
+            }
+            
+            if ( stristr( $txt, '[' . $tag . ']' ) )
+            {
+                $txt = str_ireplace( '[' . $tag . ']', '[code=' . $lang . ':0]', $txt );
+            } 
+                
+            if ( $tag != 'code' && stristr( $txt, '[/' . $tag . ']' ) )
+            {
+                $txt = str_ireplace( '[/' . $tag . ']', '[/code]', $txt );
+            }
+        }
+        
         // Check for the correct class, less resource intensive than regex
         if( stristr( $txt, '_prettyXPrint' ) )
         {
@@ -92,11 +137,15 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
 		
 		if ( !is_array( $option ) )
 		{
-            list( $option['lang'], $option['lineNum']) = explode( ':', $option );
+            list( $options['lang'], $options['lineNum']) = explode( ':', $option );
 		}
+        else
+        {
+            $options = $option;
+        }
 		
         // Make it pretty!
-        return $this->__colorfy( $content, $option );
+        return $this->_colorfy( $content, $options );
 	}
     
 
@@ -110,12 +159,13 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
 	 */
 	protected function _colorfy( $content, array $options )
 	{
-    
         if( $options['lang'] == 'code' )
             $options['lang'] = 'auto';
+            
         
-        $finalContent = '<pre class="';
-        $finalContent.= 'brush: ' . $options['lang'] . ';';
+        $finalContent = '<pre class=" _prettyXprint ';
+        //$finalContent.= 'html-script: true;'; // Still throws an alert on preview?
+        $finalContent.= ' brush: ' . $options['lang'] . ';';
         
         // Settings -----------------------------------------------
         // -> Line numbers
@@ -123,10 +173,10 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
         if( $lineNums > 0 )
         {
             $finalContent.= ' first-line: ' . $lineNums . ';';
-        }
+        }   
         
         $finalContent.= '"> ';
-        $finalContent.= $content;
+        $finalContent.= preg_replace( '#(https|http|ftp)://#' , '\1&#58;//', $content );
         $finalContent.= '</pre>';
         
         // Return our parsed code
