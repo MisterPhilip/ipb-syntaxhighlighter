@@ -8,7 +8,7 @@
  * @package		IP.Board
  * @link		http://misterphilip.com
  * @link        https://github.com/MisterPhilip/ipb-syntaxhighlighter/
- * @version     10003
+ * @version     10004
  *
  */
 
@@ -174,7 +174,7 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
         {
             $finalContent.= ' first-line: ' . $lineNums . ';';
         }   
-        else
+        elseif( $this->settings['codesyntax_gutter'] )
         {
             $finalContent.= ' gutter: false;';
         }
