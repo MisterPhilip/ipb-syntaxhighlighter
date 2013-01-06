@@ -5,6 +5,9 @@
  * SyntaxHighlighter is donationware. If you are using it, please donate.
  * http://alexgorbatchev.com/SyntaxHighlighter/donate.html
  *
+ * Modified by Philip Lawrence (Jan 5 2013)
+ * https://github.com/MisterPhilip/SyntaxHighlighter
+ *
  * @version
  * 3.0.83 (July 02 2010)
  * 
@@ -14,4 +17,6 @@
  * @license
  * Dual licensed under the MIT and GPL licenses.
  */
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(2(){1 h=5;h.I=2(){2 n(c,a){4(1 d=0;d<c.9;d++)i[c[d]]=a}2 o(c){1 a=r.H("J"),d=3;a.K=c;a.M="L/t";a.G="t";a.u=a.v=2(){6(!d&&(!8.7||8.7=="F"||8.7=="z")){d=q;e[c]=q;a:{4(1 p y e)6(e[p]==3)B a;j&&5.C(k)}a.u=a.v=x;a.D.O(a)}};r.N.R(a)}1 f=Q,l=h.P(),i={},e={},j=3,k=x,b;5.T=2(c){k=c;j=q};4(b=0;b<f.9;b++){1 m=f[b].w?f[b]:f[b].S(/\\s+/),g=m.w();n(m,g)}4(b=0;b<l.9;b++)6(g=i[l[b].E.A]){e[g]=3;o(g)}}})();',56,56,'|var|function|false|for|SyntaxHighlighter|if|readyState|this|length|||||||||||||||||true|document||javascript|onload|onreadystatechange|pop|null|in|complete|brush|break|highlight|parentNode|params|loaded|language|createElement|autoloader|script|src|text|type|body|removeChild|findElements|arguments|appendChild|split|all'.split('|'),0,{}))
+ (function(){var d=SyntaxHighlighter;d.autoloader=function(){function m(){for(a=0;a<h.length;a++){var j=n[h[a].params.brush];j&&(f[j]=!1,r(j))}}function r(a){var b=document.createElement("script"),c=!1;b.src=a;b.type="text/javascript";b.language="javascript";b.onload=b.onreadystatechange=function(){if(!c&&(!this.readyState||"loaded"==this.readyState||"complete"==this.readyState)){c=!0;f[a]=!0;a:{for(var e in f)if(!1==f[e])break a;if(null!==SyntaxHighlighter.vars.discoveredBrushes)for(var g in SyntaxHighlighter.brushes)if(SyntaxHighlighter.brushes.hasOwnProperty(g)&&
+(e=SyntaxHighlighter.brushes[g].aliases,"string"!=typeof SyntaxHighlighter.vars.discoveredBrushes[SyntaxHighlighter.brushes[g].aliases[0]]))for(var d in e)e.hasOwnProperty(d)&&(SyntaxHighlighter.vars.discoveredBrushes[e[d]]=g);p&&SyntaxHighlighter.highlight(q)}b.onload=b.onreadystatechange=null;b.parentNode.removeChild(b)}};document.body.appendChild(b)}var c=arguments,h=d.findElements(),n={},f={},p=!1,q=null,a;SyntaxHighlighter.all=function(a){h=d.findElements();m();q=a;p=!0};for(a=0;a<c.length;a++)for(var k=
+c[a].pop?c[a]:c[a].split(/\s+/),s=k.pop(),l=0;l<k.length;l++)n[k[l]]=s;m()}})();
