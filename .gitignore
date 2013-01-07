@@ -1,4 +1,4 @@
 .idea/*
 install/*
 build/*
-hooks/*
+upload/hooks/*
