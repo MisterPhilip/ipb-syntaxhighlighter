@@ -55,5 +55,5 @@ Also included are some language settings that are seen within SyntaxHighlighter.
 ## Styling
 
 With SyntaxHighlighter comes [themes](http://alexgorbatchev.com/SyntaxHighlighter/manual/themes/). 
-By default, the core & default theme are loaded. You can change this by replacing `/public/style_css/3rd_party/SyntaxHighlighter/shTheme.css` 
-with the theme of your choice.
+By default, the core file will always be loaded (`/public/style_css/3rd_party/SyntaxHighlighter/shCore.css`). However, the theme file 
+is located within the admin interface and you can edit it there (Look & Feel > Manage Theme > CSS > `SyntaxHighlighter`)

@@ -4,9 +4,9 @@
  *
  * @author      Philip Lawrence
  * @copyright   (c) 2012 - 2013 Philip Lawrence
- * @license     https://github.com/MisterPhilip/ipb-geshi/blob/master/LICENSE
+ * @license     https://github.com/MisterPhilip/ipb-syntaxhighlighter/blob/master/LICENSE
  * @package     IP.Board
- * @link        http://misterphilip.com
+ * @link        http://misterphilip.com/ipb.php?action=view&product=SyntaxHighlighter
  * @link        https://github.com/MisterPhilip/ipb-syntaxhighlighter/
  * @version     10006
  *
