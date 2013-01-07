@@ -2,3 +2,4 @@
 install/*
 build/*
 upload/hooks/*
+master_*
