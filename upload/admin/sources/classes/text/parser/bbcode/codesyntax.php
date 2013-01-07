@@ -169,7 +169,32 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
     {
         if( $options['lang'] == 'auto' || $options['lang'] == 'code' )
             $options['lang'] = 'php';
-        
+
+        $startingLine = intval( $options['lineNum'] );
+
+        // Capture any lines to highlight
+        $highlightLines = array();
+        if( $this->settings['codesyntax_highlightKey'] != '' && strpos( $content, $this->settings['codesyntax_highlightKey'] ) !== false )
+        {
+            $currentLine = ( $startingLine == 0 ) ? 1 : $startingLine;
+            $lengthOfKey = strlen( $this->settings['codesyntax_highlightKey'] );
+
+            // @TODO: Clean this up, find a way to use less memory on large posts
+            $contentArray = explode( PHP_EOL, $content );
+            $content = '';
+            foreach( $contentArray as $line )
+            {
+                if( strpos( $line, $this->settings['codesyntax_highlightKey'] ) === 0 )
+                {
+                    $highlightLines[ ] = $currentLine;
+                    $line = substr( $line, $lengthOfKey );  // Remove the highlight key from the beginning
+                }
+                $content.= $line . PHP_EOL;
+                $currentLine++;
+            }
+        }
+
+        // Start to build the output
         $finalContent = '<pre class="';
         $finalContent.= 'brush: ' . $options['lang'] . ';';
         #if( in_array( $options['lang'], array( 'php', 'css', 'js', 'jscript', 'javascript' ) ) )
@@ -177,14 +202,19 @@ class bbcode_plugin_codesyntax extends bbcode_plugin_code
         
         // Settings -----------------------------------------------
         // -> Line numbers
-        $lineNums = intval( $options['lineNum'] );
-        if( $lineNums > 0 )
+        if( $startingLine > 0 )
         {
-            $finalContent.= ' first-line: ' . $lineNums . ';';
+            $finalContent.= ' first-line: ' . $startingLine . ';';
         }   
         elseif( $this->settings['codesyntax_gutter'] )
         {
             $finalContent.= ' gutter: false;';
+        }
+
+        // -> Highlighted Lines
+        if( count( $highlightLines ) > 0 )
+        {
+            $finalContent.= ' highlight: [' . implode( ', ', $highlightLines ) . '];';
         }
         
         $finalContent.= '"> ';
